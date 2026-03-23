@@ -1,0 +1,122 @@
+services:
+
+  issuer:
+    image: ghcr.io/hyperledger/aries-cloudagent-python:py3.9-0.12.8
+    container_name: issuer
+    ports:
+      - "5020:5020"
+      - "5021:5021"
+    command: >
+      start
+      --inbound-transport http 0.0.0.0 5020
+      --outbound-transport http
+      --endpoint http://issuer:5020
+      --admin 0.0.0.0 5021
+      --admin-insecure-mode
+      --label ISSUER
+      --wallet-type askar
+      --wallet-name icc_wallet
+      --wallet-key issuer123
+      --auto-provision
+      --genesis-url http://test.bcovrin.vonx.io/genesis
+      --auto-accept-invites
+      --auto-accept-requests
+      --auto-respond-presentation-request
+      --auto-verify-presentation
+
+  icc:
+    image: ghcr.io/hyperledger/aries-cloudagent-python:py3.9-0.12.8
+    container_name: icc
+    ports:
+      - "6020:6020"
+      - "6021:6021"
+    command: >
+      start
+      --inbound-transport http 0.0.0.0 6020
+      --outbound-transport http
+      --endpoint http://icc:6020
+      --admin 0.0.0.0 6021
+      --admin-insecure-mode
+      --label ICC
+      --wallet-type askar
+      --wallet-name icc_wallet
+      --wallet-key icc123
+      --auto-provision
+      --genesis-url http://test.bcovrin.vonx.io/genesis
+      --auto-accept-invites
+      --auto-accept-requests
+      --auto-respond-presentation-request
+      --auto-verify-presentation
+
+
+  board1:
+    image: ghcr.io/hyperledger/aries-cloudagent-python:py3.9-0.12.8
+    container_name: board1
+    ports:
+      - "7020:7020"
+      - "7021:7021"
+    command: >
+      start
+      --inbound-transport http 0.0.0.0 7020
+      --outbound-transport http
+      --endpoint http://board1:7020
+      --admin 0.0.0.0 7021
+      --admin-insecure-mode
+      --label Board1
+      --wallet-type askar
+      --wallet-name board1_wallet
+      --wallet-key board1.123
+      --auto-provision
+      --genesis-url http://test.bcovrin.vonx.io/genesis
+      --auto-accept-invites
+      --auto-accept-requests
+      --auto-respond-presentation-request
+      --auto-verify-presentation
+
+  board2:
+    image: ghcr.io/hyperledger/aries-cloudagent-python:py3.9-0.12.8
+    container_name: board2
+    ports:
+      - "8020:8020"
+      - "8021:8021"
+    command: >
+      start
+      --inbound-transport http 0.0.0.0 8020
+      --outbound-transport http
+      --endpoint http://board2:8020
+      --admin 0.0.0.0 8021
+      --admin-insecure-mode
+      --label Board2
+      --wallet-type askar
+      --wallet-name board2_wallet
+      --wallet-key board2.123
+      --auto-provision
+      --genesis-url http://test.bcovrin.vonx.io/genesis
+      --auto-accept-invites
+      --auto-accept-requests
+      --auto-respond-presentation-request
+      --auto-verify-presentation
+
+  board3:
+    image: ghcr.io/hyperledger/aries-cloudagent-python:py3.9-0.12.8
+    container_name: board3
+    ports:
+      - "9020:9020"
+      - "9021:9021"
+    command: >
+      start
+      --inbound-transport http 0.0.0.0 9020
+      --outbound-transport http
+      --endpoint http://board3:9020
+      --admin 0.0.0.0 9021
+      --admin-insecure-mode
+      --label Board3
+      --wallet-type askar
+      --wallet-name board3_wallet
+      --wallet-key board3.123
+      --auto-provision
+      --genesis-url http://test.bcovrin.vonx.io/genesis
+      --auto-accept-invites
+      --auto-accept-requests
+      --auto-respond-presentation-request
+      --auto-verify-presentation

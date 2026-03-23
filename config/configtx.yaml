@@ -1,0 +1,220 @@
+
+
+Organizations:
+
+  - &OrdererOrg
+    Name: OrdererOrg
+    ID: OrdererMSP
+    MSPDir: ../config/crypto/ordererOrganizations/example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.admin')"
+    OrdererEndpoints:
+      - orderer.example.com:7050
+
+  - &ICC
+    Name: ICCMSP
+    ID: ICCMSP
+    MSPDir: ../config/crypto/peerOrganizations/icc.example.com/users/Admin@icc.example.com/msp
+    AnchorPeers:
+    - Host: peer0.icc.example.com
+      Port: 6051
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('ICCMSP.admin','ICCMSP.peer','ICCMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('ICCMSP.admin','ICCMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('ICCMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('ICCMSP.peer')"
+
+  - &Board1
+    Name: Board1MSP
+    ID: Board1MSP
+    MSPDir: ../config/crypto/peerOrganizations/board1.example.com/users/Admin@board1.example.com/msp
+    AnchorPeers:
+    - Host: peer0.board1.example.com
+      Port: 7051
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('Board1MSP.admin','Board1MSP.peer','Board1MSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('Board1MSP.admin','Board1MSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('Board1MSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('Board1MSP.peer')"
+
+  - &Board2
+    Name: Board2MSP
+    ID: Board2MSP
+    MSPDir: ../config/crypto/peerOrganizations/board2.example.com/users/Admin@board2.example.com/msp
+    AnchorPeers:
+    - Host: peer0.board2.example.com
+      Port: 8051
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('Board2MSP.admin','Board2MSP.peer','Board2MSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('Board2MSP.admin','Board2MSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('Board2MSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('Board2MSP.peer')"
+
+  - &Board3
+    Name: Board3MSP
+    ID: Board3MSP
+    MSPDir: ../config/crypto/peerOrganizations/board3.example.com/users/Admin@board3.example.com/msp
+    AnchorPeers:
+    - Host: peer0.board3.example.com
+      Port: 9051
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('Board3MSP.admin','Board3MSP.peer','Board3MSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('Board3MSP.admin','Board3MSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('Board3MSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('Board3MSP.peer')"
+
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_0: true
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  Addresses:
+    - orderer.example.com:7050
+  EtcdRaft:
+    Consenters:
+      - Host: orderer.example.com
+        Port: 7050
+        ClientTLSCert: ../config/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+        ServerTLSCert: ../config/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+  Organizations:
+    - *OrdererOrg
+  Capabilities: *OrdererCapabilities
+
+Profiles:
+
+  FourOrgsOrdererGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+    Consortiums:
+      SampleConsortium:
+        Organizations:
+          - *ICC
+          - *Board1
+          - *Board2
+          - *Board3
+
+  CricketChannel:
+    <<: *ChannelDefaults
+    Consortium: SampleConsortium
+    Orderer:
+      <<: *OrdererDefaults
+      OrdererType: etcdraft
+      EtcdRaft:
+        Consenters:
+          - Host: orderer.example.com
+            Port: 7050
+            ClientTLSCert: ../config/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+            ServerTLSCert: ../config/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+      Organizations:
+        - *OrdererOrg
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *ICC
+        - *Board1
+        - *Board2
+        - *Board3
+      Capabilities: *ApplicationCapabilities
+
