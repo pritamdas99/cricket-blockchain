@@ -18,9 +18,9 @@ var (
 
 func main() {
 	GetConnectionID()
-	// createMatches()
-	// issueTickets()
-	// useTickets()
+	createMatches()
+	issueTickets()
+	useTickets()
 	distributeRevenue()
 }
 
