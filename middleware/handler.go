@@ -116,7 +116,7 @@ func IssueTicketHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Step 3: Role check
-	if role != "Board1" && role != "Board2" {
+	if role == "ICC" {
 		http.Error(w, "Only boards can issue ticket", http.StatusForbidden)
 		return
 	}
@@ -160,7 +160,7 @@ func UseTicketHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Step 3: Role check
-	if role != "Board1" && role != "Board2" {
+	if role == "ICC" {
 		http.Error(w, "Only boards can check ticket", http.StatusForbidden)
 		return
 	}
@@ -228,19 +228,23 @@ func Read(w http.ResponseWriter, r *http.Request) {
 	var req Revenue
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
-		return
+		return 
 	}
 	// Step 4: Submit transaction
-	SubmitTxAs("ICC",
+	data := SubmitTxAs("ICC",
 		"ReadMatch",
 		req.MatchID,
 		
 	)
+	var result map[string]interface{}
+	json.Unmarshal(data, &result)
 
 	fmt.Println("🎉 Read")
 
 	// Response
-	json.NewEncoder(w).Encode(map[string]string{
+	json.NewEncoder(w).Encode(map[string]interface{}{
 		"status": "read",
+		"data": result,
 	})
+
 }

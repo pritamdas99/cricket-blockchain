@@ -1,0 +1,15 @@
+id,homeBoard,awayBoard,totalTickets,ticketPrice
+tournament_1_amatch_1,Board1,Board2,2,50
+tournament_1_amatch_2,Board2,Board3,2,50
+tournament_1_amatch_3,Board3,Board1,2,50
+tournament_1_amatch_4,Board1,Board2,2,50
+tournament_1_amatch_5,Board2,Board3,2,50
+tournament_1_amatch_6,Board3,Board1,2,50
+tournament_1_amatch_7,Board1,Board2,2,50
+tournament_2_amatch_1,Board1,Board2,2,50
+tournament_2_amatch_2,Board2,Board3,2,50
+tournament_2_amatch_3,Board3,Board1,2,50
+tournament_2_amatch_4,Board1,Board2,2,50
+tournament_2_amatch_5,Board2,Board3,2,50
+tournament_2_amatch_6,Board3,Board1,2,50
+tournament_2_amatch_7,Board1,Board2,2,50

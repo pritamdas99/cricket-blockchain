@@ -18,6 +18,8 @@ func roleToMSP(role string) string {
 		return "Board1MSP"
 	case "Board2":
 		return "Board2MSP"
+	case "Board3":
+		return "Board3MSP"	
 	default:
 		return ""
 	}

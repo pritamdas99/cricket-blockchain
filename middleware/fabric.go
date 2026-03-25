@@ -26,6 +26,10 @@ func InitFabric() {
     "../config/crypto/peerOrganizations/board2.example.com/users/Admin@board2.example.com/msp/signcerts/Admin@board2.example.com-cert.pem", 
 	"../config/crypto/peerOrganizations/board2.example.com/users/Admin@board2.example.com/msp/keystore/priv_sk")
 
+	contracts["Board3MSP"] = connect("Board3MSP", 
+    "../config/crypto/peerOrganizations/board3.example.com/users/Admin@board3.example.com/msp/signcerts/Admin@board3.example.com-cert.pem", 
+	"../config/crypto/peerOrganizations/board3.example.com/users/Admin@board3.example.com/msp/keystore/priv_sk")
+
 	fmt.Println("Fabric initialized", contracts["Board1MSP"])
 }
 
@@ -86,14 +90,14 @@ func connect(mspID, certPath, keyPath string) *client.Contract {
 	return network.GetContract("cricketcc")
 }
 
-func SubmitTxAs(role string, fn string, args ...string) {
+func SubmitTxAs(role string, fn string, args ...string) []byte {
 
 	msp := roleToMSP(role)
 
 	contract, ok := contracts[msp]
 	if !ok {
 		fmt.Println("❌ Unknown MSP:", msp)
-		return
+		return nil
 	}
 
 	fmt.Println("➡️ Acting as:", msp)
@@ -120,7 +124,7 @@ func SubmitTxAs(role string, fn string, args ...string) {
 	result, commit, err := contract.SubmitAsync(
 		fn,
 		client.WithArguments(args...),
-		client.WithEndorsingOrganizations("ICCMSP", "Board1MSP", "Board2MSP"),
+		client.WithEndorsingOrganizations("ICCMSP", "Board1MSP", "Board2MSP", "Board3MSP"),
 	)
 	if err != nil {
 		fmt.Println("Err: ", err)
@@ -139,4 +143,6 @@ func SubmitTxAs(role string, fn string, args ...string) {
 	
 
 	fmt.Println("✅ Transaction success33", status.Successful, string(result))
+
+	return result
 }
