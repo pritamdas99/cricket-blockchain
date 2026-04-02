@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 )
 
 const baseURL = "http://localhost:8080"
@@ -43,6 +44,10 @@ func createMatches() {
 
 	reader := csv.NewReader(file)
 	rows, _ := reader.ReadAll()
+	min := 10000.0
+	max := 0.0
+	tot := 0.0
+	avg := 0.0
 
 	fmt.Println("Creating Matches...")
 
@@ -50,10 +55,16 @@ func createMatches() {
 		if i == 0 {
 			continue // skip header
 		}
+		if i%10 == 0{
+			fmt.Println(i)
+		}
 
 		matchID := row[0]
 		team1 := row[1]
 		team2 := row[2]
+
+		start := time.Now()
+
 
 		post(baseURL+"/create-match", map[string]interface{}{
 			"connection_id": cons["ICCMSP"],
@@ -63,7 +74,18 @@ func createMatches() {
 			"score1":        row[3],
 			"score2":        row[4],
 		})
+
+		sp := time.Since(start).Seconds()
+		if float64(sp) < min {
+			min=float64(sp)
+		}
+		if float64(sp) > max {
+			max = float64(sp)
+		}
+		tot+=float64(sp)
 	}
+	avg = tot/(float64(len(rows))-1)
+	fmt.Println(min, max,avg,1.0/avg)
 }
 
 func issueTickets() {
@@ -73,11 +95,19 @@ func issueTickets() {
 	reader := csv.NewReader(file)
 	rows, _ := reader.ReadAll()
 
+	min := 10000.0
+	max := 0.0
+	tot := 0.0
+	avg := 0.0
+
 	fmt.Println("Issuing Tickets...")
 
 	for i, row := range rows {
 		if i == 0 {
 			continue
+		}
+		if i%10 == 0{
+			fmt.Println(i)
 		}
 
 		ticketID := row[0]
@@ -116,12 +146,23 @@ func issueTickets() {
 
 		fmt.Println("Match Data:", data, data["homeBoard"])
 
+		start := time.Now()
 		post(baseURL+"/issue-ticket", map[string]interface{}{
 			"connection_id": cons[data["homeBoard"].(string)],
 			"match_id":      matchID,
 			"ticket_id":     ticketID,
 		})
+		sp := time.Since(start).Seconds()
+		if float64(sp) < min {
+			min=float64(sp)
+		}
+		if float64(sp) > max {
+			max = float64(sp)
+		}
+		tot+=float64(sp)
 	}
+	avg = tot/(float64(len(rows))-1)
+	fmt.Println(min, max,avg,1.0/avg)
 }
 
 func useTickets() {
@@ -131,11 +172,19 @@ func useTickets() {
 	reader := csv.NewReader(file)
 	rows, _ := reader.ReadAll()
 
+	min := 10000.0
+	max := 0.0
+	tot := 0.0
+	avg := 0.0
+
 	fmt.Println("Using Tickets...")
 
 	for i, row := range rows {
 		if i == 0 {
 			continue
+		}
+		if i%10 == 0{
+			fmt.Println(i)
 		}
 
 		ticketID := row[0]
@@ -173,12 +222,23 @@ func useTickets() {
 		}
 
 		fmt.Println("Match Data:", data)
+		start := time.Now()
 
 		post(baseURL+"/use-ticket", map[string]interface{}{
 			"connection_id": cons[data["homeBoard"].(string)],
 			"ticket_id":     ticketID,
 		})
+		sp := time.Since(start).Seconds()
+		if float64(sp) < min {
+			min=float64(sp)
+		}
+		if float64(sp) > max {
+			max = float64(sp)
+		}
+		tot+=float64(sp)
 	}
+	avg = tot/(float64(len(rows))-1)
+	fmt.Println(min, max,avg,1.0/avg)
 }
 
 func distributeRevenue() {
@@ -188,21 +248,40 @@ func distributeRevenue() {
 	reader := csv.NewReader(file)
 	rows, _ := reader.ReadAll()
 
+	min := 10000.0
+	max := 0.0
+	tot := 0.0
+	avg := 0.0
+
 	fmt.Println("Distributing Revenue...")
 
 	for i, row := range rows {
 		if i == 0 {
 			continue
 		}
+		if i%10 == 0{
+			fmt.Println(i)
+		}
 
 		matchID := row[0]
 		fmt.Println(matchID)
+		start := time.Now()
 
 		post(baseURL+"/revenue", map[string]interface{}{
 			"connection_id": cons["ICCMSP"],
 			"match_id":      matchID,
 		})
+		sp := time.Since(start).Seconds()
+		if float64(sp) < min {
+			min=float64(sp)
+		}
+		if float64(sp) > max {
+			max = float64(sp)
+		}
+		tot+=float64(sp)
 	}
+	avg = tot/(float64(len(rows))-1)
+	fmt.Println(min, max,avg,1.0/avg)
 }
 
 func GetConnectionID() {
