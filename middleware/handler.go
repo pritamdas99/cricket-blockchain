@@ -57,24 +57,24 @@ func CreateMatchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Step 1: Send proof request
-	presExID := SendProofRequest(req.ConnectionID)
-	fmt.Println("📩 Proof request sent:", presExID)
+	// presExID := SendProofRequest(req.ConnectionID)
+	// fmt.Println("📩 Proof request sent:", presExID)
 
-	// Step 2: Wait for proof
-	ok, role := WaitForProof(presExID)
-	if !ok {
-		http.Error(w, "Verification failed", http.StatusUnauthorized)
-		return
-	}
+	// // Step 2: Wait for proof
+	// ok, role := WaitForProof(presExID)
+	// if !ok {
+	// 	http.Error(w, "Verification failed", http.StatusUnauthorized)
+	// 	return
+	// }
 
-	// Step 3: Role check
-	if role != "ICC" {
-		http.Error(w, "Only ICC allowed", http.StatusForbidden)
-		return
-	}
+	// // Step 3: Role check
+	// if role != "ICC" {
+	// 	http.Error(w, "Only ICC allowed", http.StatusForbidden)
+	// 	return
+	// }
 
 	// Step 4: Submit transaction
-	SubmitTxAs(role,
+	SubmitTxAs("",
 		"CreateMatch",
 		req.MatchID,
 		req.Team1,
@@ -104,25 +104,25 @@ func IssueTicketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Step 1: Send proof request
-	presExID := SendProofRequest(req.ConnectionID)
-	fmt.Println("📩 Proof request sent:", presExID)
+	// // Step 1: Send proof request
+	// presExID := SendProofRequest(req.ConnectionID)
+	// fmt.Println("📩 Proof request sent:", presExID)
 
-	// Step 2: Wait for proof
-	ok, role := WaitForProof(presExID)
-	if !ok {
-		http.Error(w, "Verification failed", http.StatusUnauthorized)
-		return
-	}
+	// // Step 2: Wait for proof
+	// ok, role := WaitForProof(presExID)
+	// if !ok {
+	// 	http.Error(w, "Verification failed", http.StatusUnauthorized)
+	// 	return
+	// }
 
-	// Step 3: Role check
-	if role == "ICC" {
-		http.Error(w, "Only boards can issue ticket", http.StatusForbidden)
-		return
-	}
+	// // Step 3: Role check
+	// if role == "ICC" {
+	// 	http.Error(w, "Only boards can issue ticket", http.StatusForbidden)
+	// 	return
+	// }
 
 	// Step 4: Submit transaction
-	SubmitTxAs(role,
+	SubmitTxAs("",
 		"IssueTicket",
 		req.MatchID,
 		req.TicketID,
@@ -148,25 +148,25 @@ func UseTicketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Step 1: Send proof request
-	presExID := SendProofRequest(req.ConnectionID)
-	fmt.Println("📩 Proof request sent:", presExID)
+	// // Step 1: Send proof request
+	// presExID := SendProofRequest(req.ConnectionID)
+	// fmt.Println("📩 Proof request sent:", presExID)
 
-	// Step 2: Wait for proof
-	ok, role := WaitForProof(presExID)
-	if !ok {
-		http.Error(w, "Verification failed", http.StatusUnauthorized)
-		return
-	}
+	// // Step 2: Wait for proof
+	// ok, role := WaitForProof(presExID)
+	// if !ok {
+	// 	http.Error(w, "Verification failed", http.StatusUnauthorized)
+	// 	return
+	// }
 
-	// Step 3: Role check
-	if role == "ICC" {
-		http.Error(w, "Only boards can check ticket", http.StatusForbidden)
-		return
-	}
+	// // Step 3: Role check
+	// if role == "ICC" {
+	// 	http.Error(w, "Only boards can check ticket", http.StatusForbidden)
+	// 	return
+	// }
 
 	// Step 4: Submit transaction
-	SubmitTxAs(role,
+	SubmitTxAs("",
 		"UseTicket",
 		req.TicketID,
 	)
@@ -192,24 +192,24 @@ func RevenueHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Step 1: Send proof request
-	presExID := SendProofRequest(req.ConnectionID)
-	fmt.Println("📩 Proof request sent:", presExID)
+	// presExID := SendProofRequest(req.ConnectionID)
+	// fmt.Println("📩 Proof request sent:", presExID)
 
-	// Step 2: Wait for proof
-	ok, role := WaitForProof(presExID)
-	if !ok {
-		http.Error(w, "Verification failed", http.StatusUnauthorized)
-		return
-	}
+	// // Step 2: Wait for proof
+	// ok, role := WaitForProof(presExID)
+	// if !ok {
+	// 	http.Error(w, "Verification failed", http.StatusUnauthorized)
+	// 	return
+	// }
 
-	// Step 3: Role check
-	if role != "ICC" {
-		http.Error(w, "Only ICC allowed", http.StatusForbidden)
-		return
-	}
+	// // Step 3: Role check
+	// if role != "ICC" {
+	// 	http.Error(w, "Only ICC allowed", http.StatusForbidden)
+	// 	return
+	// }
 
 	// Step 4: Submit transaction
-	SubmitTxAs(role,
+	SubmitTxAs("",
 		"DistributeRevenue",
 		req.MatchID,
 		

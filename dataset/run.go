@@ -22,8 +22,8 @@ func main() {
 func generateDataset() {
 	boards := []string{"Board1", "Board2", "Board3"}
 
-	totalTournaments := 2
-	matchesPerTournament := 7
+	totalTournaments := 5
+	matchesPerTournament := 10
 	ticketsPerMatch := "2"
 	ticketPrice := "50"
 
@@ -57,7 +57,7 @@ func generateDataset() {
 
 		for m := 1; m <= matchesPerTournament; m++ {
 
-			matchID := fmt.Sprintf("tournament_%d_amatch_%d", t, m)
+			matchID := fmt.Sprintf("tournament_%d_prfmatch_%d", t, m)
 
 			home := boards[(m-1)%len(boards)]
 			away := boards[m%len(boards)]
