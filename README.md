@@ -67,7 +67,9 @@ nano ~/cricket-blockchain/network/docker-compose.yaml
 Start:
 
 cd ~/cricket-blokchain/network
+
 docker-compose -f docker2.yaml up -d
+
 docker ps
 
 
