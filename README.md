@@ -44,7 +44,6 @@ rm -rf ./config/crypto/ordererOrganizations/
 rm -rf ./config/crypto/peerOrganizations/
 
 ~/fabric-samples/bin/cryptogen generate --config=config/crypto-config.yaml --output=config/crypto
-# docker-compose -f docker2.yaml down -v
 
 Stage 6 — Generate genesis + channel tx (FABRIC_CFG_PATH required)
 
