@@ -381,10 +381,13 @@ You should see:
 ## RUN
 
 cd cricket-blockchain/middleware
+
 go run .
 
 **open another terminal
+
 cd cricket-blockchain/final
+
 go run main.go
 
 
