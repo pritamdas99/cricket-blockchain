@@ -115,7 +115,7 @@ peer channel list
 **do same for all the boards
 
 
-## Chaincodes are installed and comittted
+## Chaincodes Commands (install and comit)
 We deploy from CLI container (docker exec -it cli bash or peer container).
 
 Step 0: enter cli:
