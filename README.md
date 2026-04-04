@@ -62,11 +62,11 @@ cp ~/fabric-samples/config/core.yaml ~/cricket-blockchain/config/core.yaml
 
 Stage 7 — Docker network (orderer TLS enabled)
 
-nano ~/cricket-blockchain/network/docker-compose.yaml
+cat cricket-blockchain/network/docker2.yaml
 
 Start:
 
-cd ~/cricket-blokchain/network
+cd cricket-blokchain/network
 
 docker-compose -f docker2.yaml up -d
 
