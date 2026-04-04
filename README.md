@@ -378,6 +378,15 @@ curl http://localhost:5021/present-proof-2.0/records | jq
 You should see:
 "state": "done"
 
+## RUN
+
+cd cricket-blockchain/middleware
+go run .
+
+**open another terminal
+cd cricket-blockchain/final
+go run main.go
+
 
 
 
